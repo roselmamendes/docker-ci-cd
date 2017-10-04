@@ -8,14 +8,13 @@ jobs:
     working_directory: ~/docker-ci-cd
     docker:
       - image: circleci/python:3
+    steps:
+      - checkout
       - run:
           name: setup Heroku
           command: bash .circleci/setup-heroku.sh
       - run: python -m unittest
       - setup_remote_docker
-      # agora o deploy
-      # se os testes passam vai pro deploy
-      # e tbm no deploy vou usar o docker
       - deploy:
           name: Deploy Master to Heroku
           command: |
@@ -25,6 +24,4 @@ jobs:
               docker tag docker-ci-cd:latest registry.heroku.com/docker-ci-cd/web
               docker push registry.heroku.com/docker-ci-cd/web
             fi
-
-        # vou puxar o codigo pro github e vamos ver a execucao no circle
 
