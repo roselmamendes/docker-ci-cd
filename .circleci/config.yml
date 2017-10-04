@@ -10,6 +10,7 @@ jobs:
           name: setup Heroku
           command: bash .circleci/setup-heroku.sh
        - run: python -m unittest
+       - setup_remote_docker
        - deploy:
           name: Deploy Master to Heroku
           command: |
