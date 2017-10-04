@@ -14,6 +14,10 @@ jobs:
           name: Deploy Master to Heroku
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker build -t docker-ci-cd .
+              docker login --email=_ --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+              docker tag docker-ci-cd:latest registry.heroku.com/docker-ci-cd/web
+              docker push registry.heroku.com/docker-ci-cd/web
               heroku container:login
               heroku container:push web
               git push heroku master
