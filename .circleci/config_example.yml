@@ -1,22 +1,17 @@
-# no circle com o 2.0, se usa o arquivo config.yml.
-
-# no config.yml definimos todos os passos a serem executados no circle
-
 version: 2
 jobs:
   build:
     working_directory: ~/docker-ci-cd
     docker:
       - image: circleci/python:3
-      - run:
+    steps:
+       - checkout
+       - run:
           name: setup Heroku
           command: bash .circleci/setup-heroku.sh
-      - run: python -m unittest
-      - setup_remote_docker
-      # agora o deploy
-      # se os testes passam vai pro deploy
-      # e tbm no deploy vou usar o docker
-      - deploy:
+       - run: python -m unittest
+       - setup_remote_docker
+       - deploy:
           name: Deploy Master to Heroku
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
@@ -25,6 +20,3 @@ jobs:
               docker tag docker-ci-cd:latest registry.heroku.com/docker-ci-cd/web
               docker push registry.heroku.com/docker-ci-cd/web
             fi
-
-        # vou puxar o codigo pro github e vamos ver a execucao no circle
-
