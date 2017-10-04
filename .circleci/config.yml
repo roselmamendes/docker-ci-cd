@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: /docker-ci-cd
+    working_directory: ~/docker-ci-cd
     docker:
       - image: circleci/python:3
     steps:
