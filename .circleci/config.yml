@@ -19,5 +19,4 @@ jobs:
               docker login -u $HEROKU_LOGIN -p $HEROKU_API_KEY registry.heroku.com
               docker tag docker-ci-cd:latest registry.heroku.com/docker-ci-cd/web
               docker push registry.heroku.com/docker-ci-cd/web
-              git push heroku master
             fi
