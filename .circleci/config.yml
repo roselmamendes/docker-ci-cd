@@ -6,4 +6,15 @@ jobs:
       - image: circleci/python:3
     steps:
        - checkout
+       - run:
+          name: setup Heroku
+          command: bash .circleci/setup-heroku.sh
        - run: python -m unittest
+       - deploy:
+          name: Deploy Master to Heroku
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              herokuu container:login
+              heroku container:push web
+              git push heroku master
+            fi
